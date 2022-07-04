@@ -6,12 +6,31 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 
 public class Util {
-    private final String LOGIN = "root";
-    private final String PASSWORD = "1234";
-    private final String URL = "jdbc:mysql://localhost:3306/mydbtest";
+    private static final String LOGIN = "root";
+    private static final String PASSWORD = "1234";
+    private static final String URL = "jdbc:mysql://localhost:3306/mydbtest";
+    private static Connection connection = null;
 
-    public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, LOGIN, PASSWORD);
+    static {
+        try {
+            connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+        } catch (SQLException e) {
+            System.out.println("no connect");
+        }
+    }
+
+
+    public static Connection getConnection()  {
+            return connection;
+
+    }
+
+    public static void connectionClose() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("проблема с закрытием connection");
+        }
     }
 
 }
