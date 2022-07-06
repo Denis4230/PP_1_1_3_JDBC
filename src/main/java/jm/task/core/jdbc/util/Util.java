@@ -11,23 +11,25 @@ public class Util {
     private static final String URL = "jdbc:mysql://localhost:3306/mydbtest";
     private static Connection connection = null;
 
-    static {
+
+
+
+    public static Connection getConnection() {
         try {
-            connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+            return connection = DriverManager.getConnection(URL, LOGIN, PASSWORD);
         } catch (SQLException e) {
-            System.out.println("no connect");
+            System.out.println("проблемы сподключением");
+            e.printStackTrace();
         }
-    }
-
-
-    public static Connection getConnection()  {
-            return connection;
+        return null;
 
     }
 
     public static void connectionClose() {
         try {
-            connection.close();
+            if(connection != null) {
+                connection.close();
+            }
         } catch (SQLException e) {
             System.out.println("проблема с закрытием connection");
         }
